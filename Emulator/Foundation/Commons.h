@@ -9,30 +9,4 @@
 
 #pragma once
 
-#include "Commons.h"
-#include <pthread.h>
-
-class Mutex
-{
-    pthread_mutex_t mutex;
-
-public:
-    
-    Mutex();
-    ~Mutex();
-    
-    int lock();
-    int unlock();
-};
-
-class AutoMutex
-{
-    Mutex &mutex;
-
-public:
-
-    bool active = true;
-
-    AutoMutex(Mutex &ref) : mutex(ref) { mutex.lock(); }
-    ~AutoMutex() { mutex.unlock(); }
-};
+#include "Datatypes.h"
