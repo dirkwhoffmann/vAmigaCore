@@ -6,19 +6,36 @@
 //
 // See https://www.gnu.org for license information
 // -----------------------------------------------------------------------------
-// THIS FILE MUST CONFORM TO ANSI-C TO BE COMPATIBLE WITH SWIFT
-// -----------------------------------------------------------------------------
 
 #pragma once
 
-#include "Aliases.h"
+#include <pthread.h>
 
-//
-// Structures
-//
+namespace utl {
 
-typedef struct
+class Mutex
 {
-    bool accurate;
+    pthread_mutex_t mutex;
+
+public:
+    
+    Mutex();
+    ~Mutex();
+    
+    int lock();
+    int unlock();
+};
+
+class AutoMutex
+{
+    Mutex &mutex;
+
+public:
+
+    bool active = true;
+
+    AutoMutex(Mutex &ref) : mutex(ref) { mutex.lock(); }
+    ~AutoMutex() { mutex.unlock(); }
+};
+
 }
-KeyboardConfig;
